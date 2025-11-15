@@ -1,0 +1,89 @@
+# Detailed System Overview Diagram (Text-Based)
+
+                              ┌────────────────────────────┐
+                              │        USER QUERY           │
+                              │  (Natural Language Input)   │
+                              └───────────────┬─────────────┘
+                                              │
+                                              ▼
+                     ┌────────────────────────────────────────────────┐
+                     │                PREPROCESSING                   │
+                     │────────────────────────────────────────────────│
+                     │ • Text cleaning                                │
+                     │ • Lowercasing / normalization                  │
+                     │ • Stopword handling (technical-safe)           │
+                     │ • Token checks                                 │
+                     └───────────────────────┬────────────────────────┘
+                                             │
+                                             ▼
+                     ┌────────────────────────────────────────────────┐
+                     │               EMBEDDING MODEL                  │
+                     │────────────────────────────────────────────────│
+                     │ • Transformer encoder                          │
+                     │ • Batch encoding                               │
+                     │ • Vector generation                            │
+                     │ • L2 normalization                             │
+                     └───────────────────────┬────────────────────────┘
+                                             │
+                                             ▼
+                     ┌────────────────────────────────────────────────┐
+                     │                 FAISS INDEX                    │
+                     │────────────────────────────────────────────────│
+                     │ • Store normalized embeddings                  │
+                     │ • Flat or HNSW index depending on scale        │
+                     │ • Fast vector similarity search                │
+                     │ • Persistent index file                        │
+                     └───────────────────────┬────────────────────────┘
+                                             │
+                       (Top-k semantic candidates retrieved)
+                                             │
+                                             ▼
+                     ┌────────────────────────────────────────────────┐
+                     │             SEMANTIC RETRIEVAL                 │
+                     │────────────────────────────────────────────────│
+                     │ • Embed query using same model                 │
+                     │ • Compare against FAISS vectors                │
+                     │ • Retrieve top-k semantically similar chunks   │
+                     │ • Filter using metadata (section, tags, etc.)  │
+                     └───────────────────────┬────────────────────────┘
+                                             │
+                                             ▼
+                     ┌────────────────────────────────────────────────┐
+                     │                RANKING ENGINE                  │
+                     │────────────────────────────────────────────────│
+                     │ • Hybrid scoring formula                       │
+                     │   - semantic score                             │
+                     │   - keyword relevance                          │
+                     │   - metadata weight                            │
+                     │   - contextual/section priority                │
+                     │ • Weighted final score                         │
+                     │ • Sort & select top results                   │
+                     └───────────────────────┬────────────────────────┘
+                                             │
+                                             ▼
+                     ┌────────────────────────────────────────────────┐
+                     │                 API OUTPUT                     │
+                     │────────────────────────────────────────────────│
+                     │ • Final ranked recommendations                  │
+                     │ • Explanation / metadata traces                 │
+                     │ • Evidence snippets                             │
+                     │ • Supports: /recommend, /ask, /evaluate         │
+                     └────────────────────────────────────────────────┘
+
+
+                                   FUTURE EXTENSIONS
+                                   ─────────────────
+                              ┌──────────────────────────────┐
+                              │        RAG CHATBOT           │
+                              │  • Multi-turn memory          │
+                              │  • Generator + retrieval      │
+                              │  • Cited responses            │
+                              └──────────────────────────────┘
+
+                              ┌──────────────────────────────┐
+                              │          UI DASHBOARD        │
+                              │  • Query visualization        │
+                              │  • Ranking score charts       │
+                              │  • Dataset explorer           │
+                              └──────────────────────────────┘
+
