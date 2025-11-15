@@ -1,0 +1,20 @@
+# 03 — Data Preparation
+
+The data preparation phase ensures that the raw technical documentation is converted into clean, structured, and chunk-ready text.
+
+Key steps:
+
+1. Data normalization
+2. Duplicate removal
+3. Stopword handling (without losing technical context)
+4. Chunking based on:
+   - Semantic boundaries
+   - Code block detection
+   - Heading structure
+5. Metadata generation:
+   - File source
+   - Section labels
+   - Parent hierarchy
+   - Token length
+
+The quality of embeddings and retrieval depends heavily on this stage.
